@@ -36,11 +36,8 @@ Rails::Initializer.run do |config|
   config.gem 'gcnovus-avatar', :version=> '0.0.7', :lib => 'avatar'
   config.gem 'flickr'
   config.gem 'rmagick'
-
+  config.gem "haml"
   config.gem 'paperclip', :version=> '2.1.2'
-  
-  
-  
   
 end
 
