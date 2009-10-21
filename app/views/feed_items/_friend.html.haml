@@ -1,23 +1,19 @@
-<%-
-#locals
-feed_item ||= @feed_item
+- feed_item ||= @feed_item
+- friendship = feed_item.item
+- inviter = friendship.inviter
+- invited = friendship.invited
 
+- unless inviter == @profile
+  %div[feed_item]
+    .left
+      = image_tag('blurp_friends.png', :class => "icon_small", :title => "User Comment Icon", :alt => "User Comment Icon")
+      = link_to h(inviter.f), inviter
+      is now a
+      = friendship.description inviter
+      of
+      = link_to h(invited.f), invited
 
+    .right
+      = x_feed_link(feed_item) if me
 
-friendship = feed_item.item
-inviter = friendship.inviter
-invited = friendship.invited 
--%>
-
-<%- unless inviter == @profile -%>
-	<div class="feed_item friend_feed" id="<%= feed_item.dom_id %>">
-	<div class="left">
-	  <img src="/images/blurp_friends.png" class="png icon_small" title="Friends Icon" alt="Friends Icon" /> 
-      <%= link_to h(inviter.f), inviter %> is now a <%= friendship.description inviter %> of <%= link_to h(invited.f), invited %>. 
-	</div>
-	<div class="right">
-	  <%= x_feed_link(feed_item) if me %>
-	</div>
-	<div class="clear"></div>
-	</div>
-<%- end -%>
+    .clear

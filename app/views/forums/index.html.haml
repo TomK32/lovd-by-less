@@ -1,29 +1,23 @@
-<h1><%= SITE_NAME %> Forums</h1>
+%h1= SITE_NAME + " Forums"
 
-<%- if_admin do%>
-<div id="sub_nav">
-  <%= inline_tb_link('Create a new forum', "new_forum", :title => "Creating a new forum") %>
-</div>
-<div id="new_forum" class="hidden">
-  <%= render :partial => 'form' %>
-</div>
+- if_admin do
+  #sub_nav
+    = inline_tb_link('Create a new forum', "new_forum", :title => "Creating a new forum")
 
-<%- end%>
+#new_forum.hidden
+  = render :partial => 'form'
 
-<div id="forum_list_header">
-  <div class="last_post">Last Post</div>
-  <div class="info">Forum</div>
-</div>
+#forum_list_header
+  .last_post Last Post
+  .info Forum
 
-<ul id="forums_list">
-  <%= render :partial => 'forum', :collection => @forums%>
-</ul>
-<div id="no_forums_message" style="display: <%= @forums.empty? ? 'block' : 'none' %>">
-  No forums exist at this time.
-</div>
-<br />
+%ul#forums_list
+  = render :partial => 'forum', :collection => @forums
 
-<%- if_admin do %>
-  <%= sortable_element('forums_list', :url => {:action => :update_positions}) %>
-  Drag forum rows to reorder.<br/>
-<%- end%>
+- if @forums.empty?
+  #no_forums_message
+    No forums exist at this time.
+
+- if_admin do
+  = sortable_element('forums_list', :url => {:action => :update_positions})
+  Drag forum rows to reorder.

@@ -1,24 +1,15 @@
-<li id="<%= forum.dom_id %>" class="forum">
-  
-  <div class="last_post">
-    <%= forum_last_post_info(forum)%>
-  </div>
-  
-  <div class="info">
-    <h2><%=link_to h(forum.name), forum_path(forum) %></h2>
-    <span class="details"><%= forum_details(forum) %></span>
-    <%=sanitize textilize(forum.description) %><br/>
+%li[forum]
+  .last_post
+    = forum_last_post_info(forum)
 
-    <%- if_admin do %>
-      <%= inline_tb_link('Edit', "#{forum.dom_id}_edit", {:title => "Editing forum #{forum.name}",
-                                                           :id => "#{forum.dom_id}_edit_link"}) %> : 
-      <%= link_to_remote 'Destroy', :url => forum, :confirm => 'Are you sure?', :method => :delete, :class=> "destroy" %>
-    <% end %>
-  </div>
-  
-  <div id="<%= forum.dom_id%>_edit" class="hidden">
-    <%= render :partial => 'form', :locals => {:forum => forum} %>
-  </div>
+  .info
+    %h2=link_to h(forum.name), forum_path(forum)
+    %span.details= forum_details(forum)
+    =sanitize textilize(forum.description)
 
-  
-</li>
+    - if_admin do
+      = inline_tb_link('Edit', "#{forum.dom_id}_edit", {:title => "Editing forum #{forum.name}", :id => "#{forum.dom_id}_edit_link"})
+      = link_to_remote 'Destroy', :url => forum, :confirm => 'Are you sure?', :method => :delete, :class=> "destroy"
+
+      .hidden{:id => "#{forum.dom_id}_edit"}
+        = render :partial => 'form', :locals => {:forum => forum}

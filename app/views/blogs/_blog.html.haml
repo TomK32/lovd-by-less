@@ -11,13 +11,12 @@
 
   #border_top
     = "Comments (#{blog.comments.size})"
-    = inline_tb_link('Add a Comment', "#{dom_id(blog)}_new_comment", :title => "Leaving A Comment On #{h blog.title}") if @p
 
   #comments
     = render :partial => 'comments/comment', :collection => blog.comments
 
-  #new_comment.hidden
-    - less_remote_form_for :comment, :url => blog_comments_path(blog), :html => { :id => "#{dom_id(blog)}_comment_form"} do |f|
+  #new_comment
+    - less_remote_form_for :comment, :url => blog_comments_path(blog, :profile_id => @profile.id), :html => { :id => "#{dom_id(blog)}_comment_form"} do |f|
       = f.text_area :comment
       To include a youtube video use: [youtube: address_of_video]
       .row.button

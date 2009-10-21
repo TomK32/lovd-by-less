@@ -1,13 +1,9 @@
-<%
-  forum ||= @forum
-%>
+- forum ||= @forum
 
-<% less_remote_form_for(forum) do |f| %>
-  <%= f.text_field :name %>
+- less_remote_form_for(forum) do |f|
+  = f.text_field :name
 
-  <%= f.text_area :description %>
+  = f.text_area :description
 
-  <div class="row button">
-    <%= f.submit "Save", :class => 'button' %>
-  </div>
-<% end %>
+  .row.button
+    = f.submit "Save"
