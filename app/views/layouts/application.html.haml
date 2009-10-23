@@ -7,7 +7,7 @@
     %title= @title || SITE_NAME
     = javascript_include_tag 'jquery', 'thickbox', 'truncator', :cache => true
     = stylesheet_link_tag 'reset', 'ie', 'application', :cache => true
-    = yield :head
+    = yield(:head)
 
     <!--[if lt IE 7.]>
     <script defer type="text/javascript.rc="/javascripts/pngfix.js"
@@ -49,7 +49,7 @@
 
         #main
           = display_standard_flashes
-          = yield :layout
+          = yield
           .clear
 
         .clear

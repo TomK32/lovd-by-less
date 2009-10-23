@@ -1,14 +1,9 @@
-<div class="activity_box">
-<h2>Search Results</h2>
+.activity_box
+  %h2 Search Results
 
+  - @results.each do |r|
+    .search_row.left.text_c
+      = icon r
+      = link_to h(r.f), r
 
-	<% @results.each do |r| %>
-		<div class="search_row left text_c">
-			<div><%= icon r %></div>
-			<div><%= link_to h(r.f), r %></div>
-		</div>
-	<% end %>
-
-
-<%= will_paginate @results %>
-</div>
+  = will_paginate @results

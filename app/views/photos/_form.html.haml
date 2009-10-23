@@ -1,14 +1,11 @@
-<div id="upload_a_photo">
-  <h2>Upload A Photo</h2>
+#upload_a_photo
+  %h2 Upload A Photo
 
-  <% less_form_for [@p,@photo], :html => {:multipart=>true} do |f| %>
-  	<%= f.wrap(:image, :label => 'Photo: '){f.file_field :image, :size => 15} %>
-  	<%= f.text_area :caption %>
-	
-  	<div class="row button">
-    	<%= f.submit 'Upload Photo', :class=>"button" %>
-  	</div>
-  <% end %>
+  - less_form_for [@p,@photo], :html => {:multipart=>true} do |f|
+    = f.wrap(:image, :label => 'Photo: '){f.file_field :image, :size => 15}
+    = f.text_area :caption
 
-  <div class="clear"></div>
-</div>
+    .row.button
+      = f.submit 'Upload Photo', :class=>"button"
+
+  .clear

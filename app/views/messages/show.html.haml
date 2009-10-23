@@ -1,10 +1,5 @@
-<%
-#locals
-label ||= 'Reading a Message'
-@title = label
-%>
+- label ||= 'Reading a Message'
+- @title = label
 
-<h1><%= sanitize label %></h1>
-
-
-<%= render :partial => "messages/message", :object => @message %>
+%h1= sanitize label
+= render :partial => "messages/message", :object => @message
