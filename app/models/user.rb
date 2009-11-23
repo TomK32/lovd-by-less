@@ -1,34 +1,14 @@
-# == Schema Information
-# Schema version: 2008100601002
-#
-# Table name: users
-#
-#  id                        :integer(4)    not null, primary key
-#  login                     :string(255)   
-#  crypted_password          :string(40)    
-#  salt                      :string(40)    
-#  created_at                :datetime      
-#  updated_at                :datetime      
-#  remember_token            :string(255)   
-#  remember_token_expires_at :datetime      
-#  is_admin                  :boolean(1)    
-#  can_send_messages         :boolean(1)    default(TRUE)
-#  email_verification        :string(255)   
-#  email_verified            :boolean(1)    
-#
-
-
 require 'digest/sha1'
 require 'mime/types'
 
 class User < ActiveRecord::Base
   has_one :profile, :dependent => :nullify
-  
+
   # Virtual attribute for the unencrypted password
   attr_accessor :password, :email, :terms_of_service
   attr_protected :is_admin, :can_send_messages
   attr_immutable :id
-  
+
   validates_acceptance_of :terms_of_service, :on => :create
   validates_confirmation_of :password, :if => :password_required?
   validates_presence_of :login
@@ -42,9 +22,6 @@ class User < ActiveRecord::Base
 
   before_save :encrypt_password
   validates_less_reverse_captcha
-  
-
-
 
   def before_create
     p = Profile.find_by_email @email
@@ -52,7 +29,6 @@ class User < ActiveRecord::Base
     errors.add(:email, 'address has already been taken.') and return false unless p.user.blank?
   end
 
-  
   def after_create
     p = Profile.find_or_create_by_email @email
     raise 'User found when should be nil' unless p.user.blank?
@@ -61,7 +37,7 @@ class User < ActiveRecord::Base
     p.save
     AccountMailer.deliver_signup self.reload
   end
-  
+
   def after_destroy
     profile.update_attributes :is_active=>false
   end
@@ -73,10 +49,6 @@ class User < ActiveRecord::Base
   def can_mail? user
     can_send_messages? && profile.is_active?
   end
-
-
-
-
 
   # Authenticates a user by their login name and unencrypted password.
   # Returns the user or nil.
@@ -104,11 +76,11 @@ class User < ActiveRecord::Base
     self.remember_token = UUID.random_create.to_s + '-' + UUID.random_create.to_s if self.remember_token.nil?
     save false
   end
-  
+
   def remember_token?
-    remember_token_expires_at && Time.now.utc < remember_token_expires_at 
+    remember_token_expires_at && Time.now.utc < remember_token_expires_at
   end
-  
+
   def forgot_password
     @forgot = true
     self.password = UUID.random_create.to_s[0,8]
@@ -117,7 +89,7 @@ class User < ActiveRecord::Base
     save!
     self.password
   end
-  
+
   def change_password(current_password, new_password, confirm_password)
     sp = User.encrypt(current_password, self.salt)
     errors.add( :password, "The password you supplied is not the correct password.") and
@@ -126,24 +98,24 @@ class User < ActiveRecord::Base
       return false unless new_password == confirm_password
     errors.add( :password, "The new password may not be blank.") and
       return false if new_password.blank?
-    
+
     self.password = new_password
     self.password_confirmation = confirm_password
-    self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--") 
+    self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--")
     self.crypted_password = encrypt(new_password)
     save
   end
 
 protected
 
-  # before filter 
+  # before filter
   def encrypt_password
     return if password.blank?
     self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--") if
       new_record? || @forgot
     self.crypted_password = encrypt(password)
   end
-  
+
   def password_required?
     crypted_password.blank? || !password.blank?
   end

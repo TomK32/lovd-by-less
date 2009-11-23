@@ -15,8 +15,6 @@ class BlogsController < ApplicationController
     end
   end
   
-  
-  
   def create
     @blog = @p.blogs.build params[:blog]
     

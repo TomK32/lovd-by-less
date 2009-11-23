@@ -2,11 +2,8 @@ class Admin::UsersController < ApplicationController
   before_filter :search_results, :except => [:destroy]
   
   def index
-    render
   end
-  
-  
-  
+
   def update
     @profile = Profile.find(params[:id])
     respond_to do |wants|

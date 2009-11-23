@@ -38,6 +38,7 @@ Rails::Initializer.run do |config|
   config.gem 'rmagick'
   config.gem "haml"
   config.gem 'paperclip', :version=> '2.1.2'
+  config.gem 'RedCloth', :lib => 'redcloth'
   
 end
 

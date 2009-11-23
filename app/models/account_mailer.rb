@@ -1,5 +1,5 @@
 class AccountMailer < ActionMailer::Base
-  
+
   def signup(user)
     @subject        = "Signup info from #{SITE_NAME}"
     @recipients     = user.profile.email
@@ -8,7 +8,6 @@ class AccountMailer < ActionMailer::Base
     @sent_on        = Time.new
     @headers        = {}
   end
-  
 
   def forgot_password(email, name, login, password)
     @subject        = "Password reset from #{SITE_NAME}"
@@ -18,8 +17,7 @@ class AccountMailer < ActionMailer::Base
     @sent_on        = Time.new
     @headers        = {}
   end
-  
-  
+
   def follow inviter, invited, description
     @subject        = "Follow notice from #{SITE_NAME}"
     @recipients     = invited.email
