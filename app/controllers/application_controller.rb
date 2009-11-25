@@ -8,12 +8,6 @@ class ApplicationController < ActionController::Base
   after_filter :store_location
   layout 'application'
 
-  def check_featured
-    return if Profile.featured_profile[:date] == Date.today
-    Profile.featured_profile[:date] = Date.today
-    Profile.featured_profile[:profile] = Profile.featured
-  end
-
   def pagination_defaults(page, per_page)
     { :page => params[:page] || page || 1,
       :per_page => params[:per_page] || per_page || (RAILS_ENV=='test' ? 1 : 40)

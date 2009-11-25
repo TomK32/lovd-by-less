@@ -3,8 +3,8 @@
   = auto_discovery_link_tag(:rss, "http://#{SITE}/newest_members.rss", :title=>"Newest Members") 
 
 = image_tag "/images/main_graphic.jpg", :class=>".left", :title => "main graphic", :alt => "main graphic"
-.front_right_column.right
-  = render :partial => 'profiles/featured', :locals => {:profile => Profile.featured_profile[:profile]} 
+.front_right_column.featured
+  = render :partial => 'profiles/featured', :locals => {:profile => Profile.featured}
   .clear
 
 .front_left_column.left 

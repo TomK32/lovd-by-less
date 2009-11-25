@@ -57,8 +57,6 @@ class Profile < ActiveRecord::Base
     :default_url => "/avatar_default_:style.png",
     :path => ":rails_root/public/system/:attachment/:id/:style/:basename.:extension"
 
-  cattr_accessor :featured_profile
-  @@featured_profile = {:date=>Date.today-4, :profile=>nil}
   Profile::NOWHERE = 'Nowhere'
 
   def to_param
@@ -84,6 +82,7 @@ class Profile < ActiveRecord::Base
     attributes['location']
   end
 
+  # TODO could be a tiny bit more sophisticated... and a named scope!
   def self.featured
     find_options = {
       :include => :user,

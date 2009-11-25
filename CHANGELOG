@@ -1,5 +1,5 @@
 2009-11
-  
+  Refactored featured_profile in home controller
   Using pagination_defaults as method instead of via a often unneccessary before_filter
   Cleaning up: removing outdated comments in models, removed empty helpers
 
