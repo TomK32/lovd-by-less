@@ -75,7 +75,7 @@ class BlogsController < ApplicationController
   
   def setup
     @user = @profile.user
-    @blogs = @profile.blogs.paginate(:page => @page, :per_page => @per_page)
+    @blogs = @profile.blogs.paginate(pagination_defaults)
     
     if params[:id]
       @blog = Blog[params[:id]]

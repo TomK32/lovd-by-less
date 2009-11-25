@@ -22,7 +22,7 @@ class ProfilesController < ApplicationController
       
       
 
-    @comments = @profile.comments.paginate(:page => @page, :per_page => @per_page)
+    @comments = @profile.comments.paginate(pagination_defaults)
     
     respond_to do |wants|
       wants.html do

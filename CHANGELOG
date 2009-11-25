@@ -1,3 +1,13 @@
+2009-11
+  
+  Using pagination_defaults as method instead of via a often unneccessary before_filter
+  Cleaning up: removing outdated comments in models, removed empty helpers
+
+2009-10
+  Converted all views to HAML (TomK32)
+  Converted all CSS to SASS
+  Stripped away default styles and images to introduce a cleaner version
+
 2009-10-07
   Upgraded from file_column to paperclip
 

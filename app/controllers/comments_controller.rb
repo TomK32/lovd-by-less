@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   
   
   def index
-    @comments = Comment.between_profiles(@p, @profile).paginate(:page => @page, :per_page => @per_page)
+    @comments = Comment.between_profiles(@p, @profile).paginate(pagination_defaults)
     redirect_to @p and return if @p == @profile
     respond_to do |wants|
       wants.html {render}

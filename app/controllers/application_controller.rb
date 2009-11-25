@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include Authorization
   filter_parameter_logging "password"
 
-  before_filter :allow_to, :check_user, :set_profile, :login_from_cookie, :login_required, :check_permissions, :pagination_defaults
+  before_filter :allow_to, :check_user, :set_profile, :login_from_cookie, :login_required, :check_permissions
   after_filter :store_location
   layout 'application'
 
@@ -14,10 +14,10 @@ class ApplicationController < ActionController::Base
     Profile.featured_profile[:profile] = Profile.featured
   end
 
-  def pagination_defaults
-    @page = (params[:page] || 1).to_i
-    @page = 1 if @page < 1
-    @per_page = (params[:per_page] || (RAILS_ENV=='test' ? 1 : 40)).to_i
+  def pagination_defaults(page, per_page)
+    { :page => params[:page] || page || 1,
+      :per_page => params[:per_page] || per_page || (RAILS_ENV=='test' ? 1 : 40)
+    }
   end
 
   def set_profile

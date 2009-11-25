@@ -61,7 +61,7 @@ class PhotosController < ApplicationController
   
   def setup
     @user = @profile.user
-    @photos = @profile.photos.paginate(:all, :page => @page, :per_page => @per_page)
+    @photos = @profile.photos.paginate(pagination_defaults)
     @photo = Photo.new
   end
 end

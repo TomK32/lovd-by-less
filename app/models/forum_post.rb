@@ -1,4 +1,6 @@
 class ForumPost < ActiveRecord::Base
+  default_scope :order => 'created_at DESC'
+
   validates_presence_of :body, :owner_id
   attr_immutable :id, :owner_id, :topic_id
 
