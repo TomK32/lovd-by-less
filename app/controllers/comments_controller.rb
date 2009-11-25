@@ -6,18 +6,18 @@ class CommentsController < ApplicationController
   def index
     @comments = Comment.between_profiles(@p, @profile).paginate(pagination_defaults)
     redirect_to @p and return if @p == @profile
-    respond_to do |wants|
-      wants.html {render}
-      wants.rss {render :layout=>false}
+    respond_to do |format|
+      format.html {render}
+      format.rss {render :layout=>false}
     end
   end
   
   def create
     @comment = @parent.comments.new(params[:comment].merge(:profile_id => @p.id))
     
-    respond_to do |wants|
+    respond_to do |format|
       if @comment.save
-        wants.js do
+        format.js do
           render :update do |page|
             page.insert_html :top, "#{dom_id(@parent)}_comments", :partial => 'comments/comment', :object => @comment
             page.visual_effect :highlight, "comment_#{@comment.id}".to_sym
@@ -25,8 +25,11 @@ class CommentsController < ApplicationController
             page << "jq('#comment_comment').val('');"
           end
         end
+        format.html do
+          redirect_to profile_blog_path(@p.id, @parent.id) + "#comment_#{@comment.id}"
+        end
       else
-        wants.js do
+        format.js do
           render :update do |page|
             page << "message('Oops... I could not create that comment');"
           end

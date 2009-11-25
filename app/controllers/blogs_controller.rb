@@ -9,23 +9,23 @@ class BlogsController < ApplicationController
       flash[:notice] = 'You have not create any blog posts.  Try creating one now.'
       redirect_to new_profile_blog_path(@p) and return
     end
-    respond_to do |wants|
-      wants.html {render}
-      wants.rss {render :layout=>false}
+    respond_to do |format|
+      format.html {render}
+      format.rss {render :layout=>false}
     end
   end
   
   def create
     @blog = @p.blogs.build params[:blog]
     
-    respond_to do |wants|
+    respond_to do |format|
       if @blog.save
-        wants.html do
+        format.html do
           flash[:notice] = 'New blog post created.'
           redirect_to profile_blogs_path(@p)
         end
       else
-        wants.html do
+        format.html do
           flash.now[:error] = 'Failed to create a new blog post.'
           render :action => :new
         end
@@ -42,14 +42,14 @@ class BlogsController < ApplicationController
   end
   
   def update
-    respond_to do |wants|
+    respond_to do |format|
       if @blog.update_attributes(params[:blog])
-        wants.html do
+        format.html do
           flash[:notice]='Blog post updated.'
           redirect_to profile_blogs_path(@p)
         end
       else
-        wants.html do
+        format.html do
           flash.now[:error]='Failed to update the blog post.'
           render :action => :edit
         end
@@ -59,8 +59,8 @@ class BlogsController < ApplicationController
   
   def destroy
     @blog.destroy
-    respond_to do |wants|
-      wants.html do
+    respond_to do |format|
+      format.html do
         flash[:notice]='Blog post deleted.'
         redirect_to profile_blogs_path(@p)
       end

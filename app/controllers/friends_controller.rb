@@ -5,13 +5,13 @@ class FriendsController < ApplicationController
   
   
   def create
-    respond_to do |wants|
+    respond_to do |format|
       if Friend.make_friends(@p, @profile)
         friend = @p.reload.friend_of? @profile
-        wants.js {render( :update ){|page| page.replace @p.dom_id(@profile.dom_id + '_friendship_'), get_friend_link( @p, @profile)}}
+        format.js {render( :update ){|page| page.replace @p.dom_id(@profile.dom_id + '_friendship_'), get_friend_link( @p, @profile)}}
       else
         message = "Oops... That didn't work. Try again!"
-        wants.js {render( :update ){|page| page.alert message}}
+        format.js {render( :update ){|page| page.alert message}}
       end
     end
   end
@@ -19,9 +19,9 @@ class FriendsController < ApplicationController
   
   def destroy
     Friend.reset @p, @profile
-    respond_to do |wants|
+    respond_to do |format|
       following = @p.reload.following? @profile
-      wants.js {render( :update ){|page| page.replace @p.dom_id(@profile.dom_id + '_friendship_'), get_friend_link( @p, @profile)}}
+      format.js {render( :update ){|page| page.replace @p.dom_id(@profile.dom_id + '_friendship_'), get_friend_link( @p, @profile)}}
     end
   end
   

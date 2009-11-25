@@ -6,9 +6,9 @@ class PhotosController < ApplicationController
   
   
   def index
-    respond_to do |wants|
-      wants.html {render}
-      wants.rss {render :layout=>false}
+    respond_to do |format|
+      format.html {render}
+      format.rss {render :layout=>false}
     end
   end
   
@@ -20,14 +20,14 @@ class PhotosController < ApplicationController
   def create
     @photo = @p.photos.build params[:photo]
     
-    respond_to do |wants|
+    respond_to do |format|
       if @photo.save
-        wants.html do
+        format.html do
           flash[:notice] = 'Photo successfully uploaded.'
           redirect_to profile_photos_path(@p)
         end
       else
-        wants.html do
+        format.html do
           flash.now[:error] = 'Photo could not be uploaded.'
           render :action => :index
         end
@@ -38,8 +38,8 @@ class PhotosController < ApplicationController
   
   def destroy
     Photo[params[:id]].destroy
-    respond_to do |wants|
-      wants.html do
+    respond_to do |format|
+      format.html do
         flash[:notice] = 'Photo was deleted.'
         redirect_to profile_photos_path(@p)
       end

@@ -24,11 +24,11 @@ class ProfilesController < ApplicationController
 
     @comments = @profile.comments.paginate(pagination_defaults)
     
-    respond_to do |wants|
-      wants.html do
+    respond_to do |format|
+      format.html do
         @feed_items = @profile.feed_items
       end
-      wants.rss do 
+      format.rss do 
         @feed_items = @profile.feed_items
         render :layout => false
       end
@@ -73,20 +73,20 @@ class ProfilesController < ApplicationController
 
 
   def delete_icon
-    respond_to do |wants|
+    respond_to do |format|
       @p.update_attribute :icon, nil
-      wants.js {render :update do |page| page.visual_effect 'Puff', 'profile_icon_picture' end  }
+      format.js {render :update do |page| page.visual_effect 'Puff', 'profile_icon_picture' end  }
     end      
   end
 
 
 
   def destroy
-    respond_to do |wants|
+    respond_to do |format|
      @user.destroy
       cookies[:auth_token] = {:expires => Time.now-1.day, :value => ""}
       session[:user] = nil
-      wants.js do
+      format.js do
         render :update do |page| 
           page.alert('Your user account, and all data, have been deleted.')
           page << 'location.href = "/";'

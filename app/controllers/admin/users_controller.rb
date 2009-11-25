@@ -6,8 +6,8 @@ class Admin::UsersController < ApplicationController
 
   def update
     @profile = Profile.find(params[:id])
-    respond_to do |wants|
-      wants.js do
+    respond_to do |format|
+      format.js do
         render :update do |page|
           if @p == @profile
             page << "message('You cannot deactivate yourself!');"

@@ -5,12 +5,12 @@ class FeedItemsController < ApplicationController
   def destroy
     @profile.feeds.find(:first, :conditions => {:feed_item_id=>params[:id]}).destroy
     
-    respond_to do |wants|
-      wants.html do
+    respond_to do |format|
+      format.html do
         flash[:notice] = 'Item successfully removed from the recent activities list.'
         redirect_back_or_default @profile
       end
-      wants.js { render(:update){|page| page.visual_effect :puff, "feed_item_#{params[:id]}".to_sym}}
+      format.js { render(:update){|page| page.visual_effect :puff, "feed_item_#{params[:id]}".to_sym}}
     end
   end
   
@@ -24,12 +24,12 @@ class FeedItemsController < ApplicationController
   def setup
     @profile = Profile[params[:profile_id]]
     if @p != @profile
-      respond_to do |wants|
-        wants.html do
+      respond_to do |format|
+        format.html do
           flash[:notice] = "Sorry, you can't do that."
           redirect_back_or_default @profile
         end
-        wants.js { render(:update){|page| page.alert "Sorry, you can't do that."}}
+        format.js { render(:update){|page| page.alert "Sorry, you can't do that."}}
       end
     end
   end
